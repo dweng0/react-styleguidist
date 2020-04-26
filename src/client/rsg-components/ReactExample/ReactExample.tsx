@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TransformOptions } from 'buble';
+import { InjectedCompilerOptions } from 'src/typings/interface/injectedCompiler';
+
 import Wrapper from 'rsg-components/Wrapper';
 import compileCode from '../../utils/compileCode';
 import splitExampleCode from '../../utils/splitExampleCode';
@@ -12,6 +14,8 @@ interface ReactExampleProps {
 	evalInContext(code: string): () => any;
 	onError(err: Error): void;
 	compilerConfig?: TransformOptions;
+	useInjectedCompiler: boolean;
+	injectedCompiler: InjectedCompilerOptions;
 }
 
 export default class ReactExample extends Component<ReactExampleProps> {
@@ -20,6 +24,8 @@ export default class ReactExample extends Component<ReactExampleProps> {
 		evalInContext: PropTypes.func.isRequired,
 		onError: PropTypes.func.isRequired,
 		compilerConfig: PropTypes.object,
+		useInjectedCompiler: PropTypes.bool,
+		injectedCompiler: PropTypes.object,
 	};
 
 	public shouldComponentUpdate(nextProps: ReactExampleProps) {
@@ -34,8 +40,17 @@ export default class ReactExample extends Component<ReactExampleProps> {
 	}
 
 	public render() {
-		const { code, compilerConfig = {}, onError } = this.props;
-		const compiledCode = compileCode(code, compilerConfig, onError);
+		console.log('here');
+		const {
+			code,
+			compilerConfig = {},
+			onError,
+			useInjectedCompiler,
+			injectedCompiler,
+		} = this.props;
+		const compiledCode = useInjectedCompiler
+			? compileCode(code, compilerConfig, onError, injectedCompiler)
+			: compileCode(code, compilerConfig, onError);
 		if (!compiledCode) {
 			return null;
 		}

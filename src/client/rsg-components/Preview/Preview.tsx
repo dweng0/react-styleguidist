@@ -80,6 +80,8 @@ export default class Preview extends Component<PreviewProps, PreviewState> {
 				evalInContext={this.props.evalInContext}
 				onError={this.handleError}
 				compilerConfig={this.context.config.compilerConfig}
+				useInjectedCompiler={this.context.config.useInjectedConfig}
+				injectedCompiler={this.context.config.injectedCompiler}
 			/>
 		);
 

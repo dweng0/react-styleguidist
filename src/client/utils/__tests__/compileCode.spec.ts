@@ -1,5 +1,6 @@
 import compileCode from '../compileCode';
 import config from '../../../scripts/schemas/config';
+import { InjectedCompilerOptions } from '../../../typings/interface/injectedCompiler';
 
 const compilerConfig = config.compilerConfig.default;
 
@@ -22,15 +23,67 @@ const foo = bar$0.default || bar$0;"
 
 	test('transform async/await is not throw an error', () => {
 		const onError = jest.fn();
+		const injectedCompiler: InjectedCompilerOptions = {
+			transformCall: () => {
+				return 'thi sis a test';
+			},
+		};
 		const result = compileCode(
 			`async function asyncFunction() { return await Promise.resolve(); }`,
 			compilerConfig,
-			onError
+			onError,
+			injectedCompiler
 		);
 		expect(onError).not.toHaveBeenCalled();
 		expect(result).toMatchInlineSnapshot(
 			`"async function asyncFunction() { return await Promise.resolve(); }"`
 		);
+	});
+
+	test('should call injected component', () => {
+		const onError = jest.fn();
+		const injectedCompiler: InjectedCompilerOptions = {
+			transformCall: () => {
+				return 'this is a test';
+			},
+		};
+		jest.spyOn(injectedCompiler, 'transformCall');
+
+		const result = compileCode(
+			`async function asyncFunction() { return await Promise.resolve(); }`,
+			compilerConfig,
+			onError,
+			injectedCompiler
+		);
+		expect(onError).not.toHaveBeenCalled();
+		expect(result).toMatchInlineSnapshot(
+			`"async function asyncFunction() { return await Promise.resolve(); }"`
+		);
+
+		expect(injectedCompiler.transformCall).toHaveBeenCalled();
+	});
+
+	test('should call injected component', () => {
+		const onError = jest.fn();
+		const injectedCompiler: InjectedCompilerOptions = {
+			transformCall: () => {
+				return 'this is a test';
+			},
+		};
+		jest.spyOn(injectedCompiler, 'transformCall');
+
+		const result = compileCode(
+			`async function asyncFunction() { return await Promise.resolve(); }`,
+			compilerConfig,
+			onError,
+			injectedCompiler
+		);
+		expect(onError).not.toHaveBeenCalled();
+		expect(result).toMatchInlineSnapshot(
+			`"async function asyncFunction() { return await Promise.resolve(); }"`
+		);
+
+		expect(injectedCompiler.transformCall).toHaveBeenCalled();
 	});
 
 	test('transform imports to require() in front of JSX', () => {
@@ -101,6 +154,7 @@ React.createElement( Button, null )
 
 	test('onError callback', () => {
 		const onError = jest.fn();
+
 		const result = compileCode(`=`, compilerConfig, onError);
 		expect(result).toBe('');
 		expect(onError).toHaveBeenCalledWith(

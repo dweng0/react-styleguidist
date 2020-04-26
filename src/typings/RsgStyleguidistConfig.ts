@@ -11,7 +11,7 @@ import { PropsObject } from './RsgPropsObject';
 import { CodeExample } from './RsgExample';
 import { ConfigSection, Section } from './RsgSection';
 import { Theme } from './RsgTheme';
-import { injectedCompilerOptions } from './interface/injectedCompiler';
+import { InjectedCompilerOptions } from './interface/injectedCompiler';
 
 export interface StyleguidistLoaderContext extends loader.LoaderContext {
 	_styleguidist: SanitizedStyleguidistConfig;
@@ -20,8 +20,8 @@ export interface StyleguidistLoaderContext extends loader.LoaderContext {
 interface BaseStyleguidistConfig {
 	assetsDir: string | string[];
 	tocMode: EXPAND_MODE;
-    compilerConfig: TransformOptions;
-    injectedCompiler: injectedCompilerOptions;
+	compilerConfig: TransformOptions;
+	injectedCompiler: InjectedCompilerOptions;
 	components: (() => string[]) | string | string[];
 	configDir: string;
 	context: Record<string, any>;

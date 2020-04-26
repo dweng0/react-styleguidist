@@ -50,6 +50,9 @@ const configSchema: Record<StyleguidistConfigKey, ConfigSchemaOptions<Rsg.Styleg
 		type: 'string',
 		default: 'expand',
 	},
+	injectedCompiler: {
+		type: 'none',
+	},
 	compilerConfig: {
 		type: 'object',
 		default: {
