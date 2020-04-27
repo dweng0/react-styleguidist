@@ -10,6 +10,7 @@ const evalInContext = (a: string): (() => any) =>
 	new Function('require', 'const React = require("react");' + a).bind(null, require);
 
 const IoCCompiler: InjectedCompilerOptions = {
+	useInjectedCompiler: true,
 	transformCall: () => {
 		return 'hi there';
 	},

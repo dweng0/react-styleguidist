@@ -24,6 +24,7 @@ const foo = bar$0.default || bar$0;"
 	test('transform async/await is not throw an error', () => {
 		const onError = jest.fn();
 		const injectedCompiler: InjectedCompilerOptions = {
+			useInjectedCompiler: true,
 			transformCall: () => {
 				return 'thi sis a test';
 			},
@@ -43,6 +44,7 @@ const foo = bar$0.default || bar$0;"
 	test('should call injected component', () => {
 		const onError = jest.fn();
 		const injectedCompiler: InjectedCompilerOptions = {
+			useInjectedCompiler: true,
 			transformCall: () => {
 				return 'this is a test';
 			},
@@ -66,6 +68,7 @@ const foo = bar$0.default || bar$0;"
 	test('should call injected component', () => {
 		const onError = jest.fn();
 		const injectedCompiler: InjectedCompilerOptions = {
+			useInjectedCompiler: true,
 			transformCall: () => {
 				return 'this is a test';
 			},
